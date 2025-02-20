@@ -48,7 +48,6 @@ toolbar.addEventListener("click", function (event) {
 function initializeGrid() {
 	updateGrid();
 	updateBorders(true);
-	updateMode("brush");
 }
 
 function changeTheme() {
@@ -82,7 +81,6 @@ function updateGrid() {
 
 function clearGrid() {
 	updateGrid();
-	updateMode("brush");
 }
 
 function updateBorders(state) {
