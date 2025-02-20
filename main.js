@@ -21,8 +21,6 @@ document.addEventListener("DOMContentLoaded", initializeGrid);
 
 // Event Listeners
 changeThemeButton.addEventListener("click", changeTheme);
-
-gridColorInput.addEventListener("input", () => updateMode("brush"));
 gridSizeInput.addEventListener("input", updateGrid);
 clearButton.addEventListener("click", clearGrid);
 toggleBordersButton.addEventListener("click", () =>
@@ -73,6 +71,7 @@ function updateGrid() {
 	for (let i = 0; i < gridSize ** 2; i++) {
 		const gridCell = document.createElement("div");
 		gridCell.classList.add("grid-cell");
+		gridCell.dataset.opacity = 0;
 		grid.append(gridCell);
 	}
 
@@ -101,6 +100,8 @@ function updateMode(mode) {
 function handleDrawing(event) {
 	if (!event.target.classList.contains("grid-cell") || !isMouseDown) return;
 
+	const cell = event.target;
+
 	switch (currentMode) {
 		case "brush":
 			gridColor = gridColorInput.value;
@@ -109,12 +110,23 @@ function handleDrawing(event) {
 			gridColor = generateRandomColor();
 			gridColorInput.value = gridColor;
 			break;
+		case "grayscale":
+			gridColor = gridColorInput.value;
+			let currentOpacity = parseFloat(cell.dataset.opacity) || 0;
+			currentOpacity = Math.min(currentOpacity + 0.1, 1);
+			return setCellStyle(cell, gridColor, currentOpacity);
 		case "eraser":
 			gridColor = "transparent";
 			break;
 	}
 
-	event.target.style.backgroundColor = gridColor;
+	setCellStyle(cell, gridColor);
+}
+
+function setCellStyle(cell, color, opacity = 1) {
+	cell.dataset.opacity = opacity === 1 ? "" : opacity;
+	cell.style.opacity = opacity;
+	cell.style.backgroundColor = color;
 }
 
 function generateRandomColor() {

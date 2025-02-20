@@ -191,7 +191,7 @@ main {
 }
 
 .grid-cell {
-	transition: background-color 500ms ease;
+	transition: all 250ms ease;
 }
 
 footer {
