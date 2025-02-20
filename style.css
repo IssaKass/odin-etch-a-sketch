@@ -190,6 +190,10 @@ main {
 	border: 1px solid var(--grid-border-color);
 }
 
+.grid-cell {
+	transition: background-color 500ms ease;
+}
+
 footer {
 	background-color: var(--footer-bg);
 	text-align: center;
