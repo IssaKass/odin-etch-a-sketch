@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Etch-a-Sketch</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+			integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body data-theme="light">
+		<header>
+			<div class="container">
+				<h1>Etch-a-Sketch</h1>
+				<button id="change-theme">
+					<i class="fa-solid fa-sun"></i>
+				</button>
+			</div>
+		</header>
+		<main>
+			<div class="container">
+				<div class="toolbar">
+					<div class="grid-color">
+						<input
+							type="color"
+							id="grid-color-input"
+							class="grid-color-input"
+						/>
+					</div>
+					<div class="grid-size">
+						<p id="grid-size-message">Grid size</p>
+						<input
+							type="range"
+							min="1"
+							max="100"
+							value="16"
+							id="grid-size-input"
+							class="grid-size-input"
+						/>
+					</div>
+					<div class="buttons">
+						<button id="clear-button" class="clear-button">
+							<i class="fa-solid fa-trash"></i>
+						</button>
+						<button id="toggle-borders-button" class="toggle-borders-button">
+							<i class="fa-solid fa-border-all"></i>
+						</button>
+						<button data-mode="brush" class="mode-button">
+							<i class="fa-solid fa-brush"></i>
+						</button>
+						<button data-mode="rainbow" class="mode-button">
+							<i class="fa-solid fa-rainbow"></i>
+						</button>
+						<button data-mode="eraser" class="mode-button">
+							<i class="fa-solid fa-eraser"></i>
+						</button>
+					</div>
+				</div>
+				<div class="grid-holder">
+					<div id="grid" class="grid"></div>
+				</div>
+			</div>
+		</main>
+		<footer>
+			<div class="container">
+				&copy; 2025 -
+				<a href="https://github.com/issakass/" target="_blank"> IssaKass </a>
+			</div>
+		</footer>
+
+		<script src="./main.js"></script>
+	</body>
+</html>
