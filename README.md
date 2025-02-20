@@ -24,6 +24,7 @@ You can view the live preview of the application by clicking the link below:
 
 - Brush Mode: Draw with the selected color from the palette.
 - Rainbow Mode: Paint with random colors for a fun, vibrant effect.
+- GrayScale Mode: Converts the current color to grayscale, starting at 10% saturation and increasing by 10% with each stroke until reaching 100% (black).
 - Eraser Mode: Erase any colored pixel and revert it to the background color.
 
 ### 🛠️ Additional Features
