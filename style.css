@@ -192,6 +192,7 @@ main {
 
 .grid-cell {
 	transition: all 250ms ease;
+	cursor: crosshair;
 }
 
 footer {
