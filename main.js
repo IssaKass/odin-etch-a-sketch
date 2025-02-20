@@ -68,12 +68,12 @@ function updateGrid() {
 	gridSizeMessage.textContent = `Grid size: ${gridSize} x ${gridSize}`;
 
 	grid.innerHTML = "";
-	grid.style.setProperty("--grid", gridSize);
+	grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+	grid.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
 
 	for (let i = 0; i < gridSize ** 2; i++) {
 		const gridCell = document.createElement("div");
 		gridCell.classList.add("grid-cell");
-		gridCell.style.setProperty("--color", "");
 		grid.append(gridCell);
 	}
 
@@ -103,16 +103,20 @@ function updateMode(mode) {
 function handleDrawing(event) {
 	if (!event.target.classList.contains("grid-cell") || !isMouseDown) return;
 
-	if (currentMode === "brush") {
-		gridColor = gridColorInput.value;
-		event.target.style.setProperty("--color", gridColor);
-	} else if (currentMode === "rainbow") {
-		gridColor = generateRandomColor();
-		gridColorInput.value = gridColor;
-		event.target.style.setProperty("--color", gridColor);
-	} else if (currentMode === "eraser") {
-		event.target.style.setProperty("--color", "");
+	switch (currentMode) {
+		case "brush":
+			gridColor = gridColorInput.value;
+			break;
+		case "rainbow":
+			gridColor = generateRandomColor();
+			gridColorInput.value = gridColor;
+			break;
+		case "eraser":
+			gridColor = "transparent";
+			break;
 	}
+
+	event.target.style.backgroundColor = gridColor;
 }
 
 function generateRandomColor() {

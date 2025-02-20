@@ -163,22 +163,12 @@ main .container {
 }
 
 .grid {
-	--grid: 16;
-	--grid-size: 800px;
-
 	margin-inline: auto;
 	background-color: var(--grid-bg);
-	width: var(--grid-size);
-	height: var(--grid-size);
-	display: flex;
-	flex-wrap: wrap;
+	width: 600px;
+	height: 600px;
+	display: grid;
 	outline: 10px solid var(--grid-border-color);
-}
-
-.grid-cell {
-	width: calc(var(--grid-size) / var(--grid));
-	height: calc(var(--grid-size) / var(--grid));
-	background-color: var(--color);
 }
 
 .grid.show-borders .grid-cell {
