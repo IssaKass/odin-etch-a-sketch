@@ -11,11 +11,13 @@ const clearButton = document.querySelector("#clear-button");
 const toggleBordersButton = document.querySelector("#toggle-borders-button");
 const toolbar = document.querySelector(".toolbar");
 const exportButton = document.querySelector("#export-button");
+const importButton = document.querySelector("#import-button");
 
 // ==========================
 // States
 // ==========================
-let gridSize = 16;
+const DEFAULT_GRID_SIZE = 16;
+let gridSize = DEFAULT_GRID_SIZE;
 let gridColor = "black";
 let currentMode = "brush";
 let isMouseDown = false;
@@ -36,7 +38,15 @@ document.addEventListener("DOMContentLoaded", initializeGrid);
 changeThemeButton.addEventListener("click", changeTheme);
 
 // Update grid size when slider value changes
-gridSizeInput.addEventListener("input", updateGrid);
+gridSizeInput.addEventListener("input", (event) =>
+	updateGrid(event.target.value)
+);
+
+// Export the grid as an image on button click
+exportButton.addEventListener("click", exportGridAsImage);
+
+// Import the image as grid on file input change
+importButton.addEventListener("change", importImageAsGrid);
 
 // Clear the grid when clear button is clicked
 clearButton.addEventListener("click", clearGrid);
@@ -45,9 +55,6 @@ clearButton.addEventListener("click", clearGrid);
 toggleBordersButton.addEventListener("click", () =>
 	updateBorders(!showBorders)
 );
-
-// Export the grid as an image on button click
-exportButton.addEventListener("click", exportGridAsImage);
 
 // Handle drawing events
 grid.addEventListener("mousedown", (event) => {
@@ -74,7 +81,7 @@ toolbar.addEventListener("click", function (event) {
  * Initializes the grid and sets default state.
  */
 function initializeGrid() {
-	updateGrid();
+	updateGrid(DEFAULT_GRID_SIZE);
 	updateBorders(true);
 }
 
@@ -98,9 +105,9 @@ function changeTheme() {
 /**
  * Updates the grid size and regenerates grid cells.
  */
-function updateGrid() {
+function updateGrid(size) {
 	// Update grid size state
-	gridSize = gridSizeInput.value;
+	gridSize = size;
 	gridSizeMessage.textContent = `${gridSize} x ${gridSize}`;
 
 	// Clear existing grid
@@ -124,7 +131,8 @@ function updateGrid() {
  * Clears the grid by regenerating grid cells.
  */
 function clearGrid() {
-	updateGrid();
+	importButton.value = ""; // Remove the uploaded file
+	updateGrid(gridSize);
 }
 
 /**
@@ -253,17 +261,26 @@ function getGridColors() {
 	return colors;
 }
 
+function setGridColors(colors) {
+	for (let row = 0; row < colors.length; row++) {
+		for (let col = 0; col < colors[row].length; col++) {
+			const cell = grid.children[row * gridSize + col];
+			cell.dataset.opacity = 0;
+			cell.style.backgroundColor = colors[row][col];
+		}
+	}
+}
+
 /**
  * Exports the grid as an image using Canvas.
  */
 function exportGridAsImage() {
-	const cellSize = 16;
 	const canvas = document.createElement("canvas");
 	const context = canvas.getContext("2d");
 
 	// Set canvas dimensions
-	canvas.width = gridSize * cellSize;
-	canvas.height = gridSize * cellSize;
+	canvas.width = gridSize;
+	canvas.height = gridSize;
 
 	context.fillStyle = "#FFFFFF";
 	context.fillRect(0, 0, canvas.width, canvas.height);
@@ -280,7 +297,7 @@ function exportGridAsImage() {
 			}
 
 			context.fillStyle = color;
-			context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+			context.fillRect(i, j, 1, 1);
 		}
 	}
 
@@ -290,4 +307,97 @@ function exportGridAsImage() {
 	downloadLink.href = imageUrl;
 	downloadLink.download = `grid_${gridSize}x${gridSize}.png`;
 	downloadLink.click();
+}
+
+/**
+ * Main function to handle image import and convert it to a grid.
+ * Triggers the import and processes the image once it's loaded.
+ */
+function importImageAsGrid() {
+	const file = importButton.files[0];
+	if (!file) return;
+
+	// Create an Image object and trigger the image load process
+	const image = createImageFromFile(file);
+	image.onload = () => drawImageToGrid(image);
+}
+
+/**
+ * Creates an Image object from the provided file.
+ * @param {File} file - The uploaded file.
+ * @returns {HTMLImageElement} The created Image object.
+ */
+function createImageFromFile(file) {
+	const image = new Image();
+	image.src = URL.createObjectURL(file);
+	return image;
+}
+
+/**
+ * Draws the uploaded image onto a hidden canvas and processes it to extract pixel data.
+ * @param {HTMLImageElement} image - The image to be drawn on the canvas.
+ */
+function drawImageToGrid(image) {
+	const canvas = document.createElement("canvas");
+	const context = canvas.getContext("2d", { willReadFrequently: true });
+
+	// Set canvas dimensions to match image size
+	canvas.width = image.naturalWidth;
+	canvas.height = image.naturalHeight;
+
+	gridSize = Math.max(canvas.width, canvas.height);
+	if (gridSize >= 100) {
+		gridSize = 100;
+	}
+
+	console.log("uploading image...");
+
+	gridSizeInput.value = gridSize;
+
+	// Draw the image on the canvas
+	context.drawImage(image, 0, 0);
+
+	// Creates a new grid
+	updateGrid(gridSize);
+
+	// Extract pixel data from the canvas and apply it to the grid
+	const colors = extractColorsFromCanvas(context);
+	applyColorsToGrid(colors);
+
+	// Release the image object URL
+	URL.revokeObjectURL(image.src);
+}
+
+/**
+ * Extracts the color data from the canvas, row by row and column by column.
+ * @param {CanvasRenderingContext2D} context - The 2D context of the canvas containing the image.
+ * @returns {string[][]} A 2D array of RGBA color values in string format.
+ */
+function extractColorsFromCanvas(context) {
+	const colors = [];
+
+	for (let row = 0; row < gridSize; row++) {
+		colors[row] = [];
+
+		for (let col = 0; col < gridSize; col++) {
+			const [r, g, b, a] = context.getImageData(row, col, 1, 1).data;
+			const rgbaColor = `rgba(${r}, ${g}, ${b}, ${a / 255})`;
+			colors[row][col] = rgbaColor;
+		}
+	}
+
+	return colors;
+}
+
+/**
+ * Applies the extracted pixel colors to the grid cells.
+ * @param {string[][]} colors - A 2D array of RGBA colors to be applied to the grid.
+ */
+function applyColorsToGrid(colors) {
+	for (let row = 0; row < gridSize; row++) {
+		for (let col = 0; col < gridSize; col++) {
+			const cell = grid.children[row * gridSize + col];
+			cell.style.backgroundColor = colors[row][col];
+		}
+	}
 }

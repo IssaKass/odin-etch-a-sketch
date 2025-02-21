@@ -26,7 +26,7 @@
 	--button-active-border-color: hsl(200, 50%, 50%);
 
 	--grid-bg: hsl(200, 50%, 100%);
-	--grid-border-color: hsl(200, 50%, 95%);
+	--grid-border-color: hsl(200, 50%, 50%, 20%);
 
 	--separator-color: hsla(200, 50%, 80%);
 }
@@ -48,7 +48,7 @@
 	--button-active-border-color: hsl(200, 50%, 100%);
 
 	--grid-bg: hsl(200, 50%, 100%);
-	--grid-border-color: hsla(200, 50%, 95%);
+	--grid-border-color: hsl(200, 50%, 50%, 20%);
 
 	--separator-color: hsla(200, 50%, 30%);
 }
@@ -74,12 +74,6 @@ body {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
-}
-
-button {
-	font-family: var(--font-family);
-	font-weight: bold;
-	cursor: pointer;
 }
 
 .container {
@@ -137,7 +131,11 @@ main {
 	border-bottom: 2px solid var(--separator-color);
 }
 
-.toolbar button {
+.toolbar .toolbar-button {
+	font-family: var(--font-family);
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 1em;
 	padding: 6px 12px;
 	border-radius: 0.2em;
 	background-color: transparent;
@@ -147,19 +145,15 @@ main {
 	transition: all 300ms ease;
 }
 
-.toolbar button:hover {
+.toolbar .toolbar-button:hover {
 	background-color: var(--button-hover-bg);
 }
 
-.toolbar button.active,
-.toolbar button:active {
+.toolbar .toolbar-button.active,
+.toolbar .toolbar-button:active {
 	color: var(--button-active-color);
 	background-color: var(--button-active-bg);
 	border-color: var(--button-active-border-color);
-}
-
-.toolbar button i {
-	font-size: 1.2em;
 }
 
 .toolbar .separator {
@@ -197,10 +191,11 @@ main {
 	width: min(720px, 90vw);
 	height: min(720px, 90vw);
 	display: grid;
+	border: 8px solid var(--separator-color);
 }
 
 .grid.show-borders .grid-cell {
-	border: 1px solid var(--grid-border-color);
+	border: 0.1px solid var(--grid-border-color);
 }
 
 .grid-cell {

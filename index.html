@@ -44,20 +44,34 @@
 						/>
 					</div>
 					<hr class="separator" />
+					<div>
+						<input type="file" id="import-button" accept="image/*" hidden />
+						<label
+							for="import-button"
+							class="toolbar-button"
+							title="Import image"
+						>
+							<i class="fa-solid fa-upload"></i>
+						</label>
+					</div>
 					<button
 						id="export-button"
-						class="export-button"
+						class="toolbar-button export-button"
 						title="Export to image"
 					>
 						<i class="fa-solid fa-download"></i>
 					</button>
 					<hr class="separator" />
-					<button id="clear-button" class="clear-button" title="Clear the grid">
+					<button
+						id="clear-button"
+						class="toolbar-button clear-button"
+						title="Clear the grid"
+					>
 						<i class="fa-solid fa-trash"></i>
 					</button>
 					<button
 						id="toggle-borders-button"
-						class="toggle-borders-button"
+						class="toolbar-button toggle-borders-button"
 						title="Toggle grid's border"
 					>
 						<i class="fa-solid fa-border-all"></i>
@@ -70,24 +84,32 @@
 							class="grid-color-input"
 						/>
 					</div>
-					<button data-mode="brush" class="mode-button" title="Use brush mode">
+					<button
+						data-mode="brush"
+						class="toolbar-button mode-button"
+						title="Use brush mode"
+					>
 						<i class="fa-solid fa-brush"></i>
 					</button>
 					<button
 						data-mode="rainbow"
-						class="mode-button"
+						class="toolbar-button mode-button"
 						title="Use rainbow mode"
 					>
 						<i class="fa-solid fa-rainbow"></i>
 					</button>
 					<button
 						data-mode="grayscale"
-						class="mode-button"
+						class="toolbar-button mode-button"
 						title="Use grayscale mode"
 					>
 						<i class="fa-solid fa-circle-half-stroke"></i>
 					</button>
-					<button data-mode="eraser" class="mode-button" title="Use the eraser">
+					<button
+						data-mode="eraser"
+						class="toolbar-button mode-button"
+						title="Use the eraser"
+					>
 						<i class="fa-solid fa-eraser"></i>
 					</button>
 				</div>
