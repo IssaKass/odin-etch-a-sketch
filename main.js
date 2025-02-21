@@ -65,7 +65,7 @@ grid.addEventListener("mousedown", (event) => {
 });
 grid.addEventListener("mouseup", () => (isMouseDown = false));
 grid.addEventListener("mouseleave", () => (isMouseDown = false));
-grid.addEventListener("mousemove", handleDrawing);
+grid.addEventListener("mouseover", handleDrawing);
 
 // Change drawing mode when a mode-button is clicked
 toolbar.addEventListener("click", function (event) {
