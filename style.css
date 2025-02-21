@@ -65,13 +65,11 @@ html {
 
 body {
 	font-family: var(--font-family);
-
+	background-color: var(--main-bg);
+	color: var(--main-color);
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
-
-	background-color: var(--main-bg);
-	color: var(--main-color);
 }
 
 button {
@@ -87,10 +85,8 @@ button {
 }
 
 header {
-	text-align: center;
 	padding-block: 0.5em;
 	background-color: var(--header-bg);
-	position: relative;
 }
 
 header .container {
@@ -191,7 +187,7 @@ main {
 }
 
 .grid-cell {
-	transition: all 250ms ease;
+	transition: background-color 250ms ease;
 	cursor: crosshair;
 }
 
@@ -199,8 +195,4 @@ footer {
 	background-color: var(--footer-bg);
 	text-align: center;
 	padding-block: 1em;
-}
-
-footer img {
-	vertical-align: text-bottom;
 }

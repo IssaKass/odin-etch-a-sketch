@@ -37,7 +37,7 @@ grid.addEventListener("mouseover", handleDrawing);
 toolbar.addEventListener("click", function (event) {
 	const button = event.target.closest("button");
 
-	if (!button.classList.contains("mode-button")) return;
+	if (!button || !button.classList.contains("mode-button")) return;
 
 	updateMode(button.dataset.mode);
 });
@@ -105,31 +105,31 @@ function handleDrawing(event) {
 	switch (currentMode) {
 		case "brush":
 			gridColor = gridColorInput.value;
+			cell.style.backgroundColor = gridColor;
 			break;
 		case "rainbow":
-			gridColor = generateRandomColor();
+			gridColor = generateRandomHexColor();
 			gridColorInput.value = gridColor;
+			cell.style.backgroundColor = gridColor;
 			break;
 		case "grayscale":
 			gridColor = gridColorInput.value;
+			const { r, g, b } = hexToRgb(gridColor);
+
 			let currentOpacity = parseFloat(cell.dataset.opacity) || 0;
 			currentOpacity = Math.min(currentOpacity + 0.1, 1);
-			return setCellStyle(cell, gridColor, currentOpacity);
+
+			cell.dataset.opacity = currentOpacity;
+			cell.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${currentOpacity})`;
+			break;
 		case "eraser":
 			gridColor = "transparent";
+			cell.style.backgroundColor = gridColor;
 			break;
 	}
-
-	setCellStyle(cell, gridColor);
 }
 
-function setCellStyle(cell, color, opacity = 1) {
-	cell.dataset.opacity = opacity === 1 ? "" : opacity;
-	cell.style.opacity = opacity;
-	cell.style.backgroundColor = color;
-}
-
-function generateRandomColor() {
+function generateRandomHexColor() {
 	const letters = "0123456789ABCDEF";
 
 	let color = "#";
@@ -138,4 +138,17 @@ function generateRandomColor() {
 	}
 
 	return color;
+}
+
+function rgbToHex(r, g, b) {
+	return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+function hexToRgb(hex) {
+	var bigint = parseInt(hex.slice(1), 16);
+	var r = (bigint >> 16) & 255;
+	var g = (bigint >> 8) & 255;
+	var b = bigint & 255;
+
+	return { r, g, b };
 }
