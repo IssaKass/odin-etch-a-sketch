@@ -10,6 +10,7 @@ const gridSizeInput = document.querySelector("#grid-size-input");
 const clearButton = document.querySelector("#clear-button");
 const toggleBordersButton = document.querySelector("#toggle-borders-button");
 const toolbar = document.querySelector(".toolbar");
+const exportButton = document.querySelector("#export-button");
 
 // ==========================
 // States
@@ -44,6 +45,9 @@ clearButton.addEventListener("click", clearGrid);
 toggleBordersButton.addEventListener("click", () =>
 	updateBorders(!showBorders)
 );
+
+// Export the grid as an image on button click
+exportButton.addEventListener("click", exportGridAsImage);
 
 // Handle drawing events
 grid.addEventListener("mousedown", (event) => {
@@ -227,4 +231,55 @@ function hexToRgb(hex) {
 	var b = bigint & 255;
 
 	return { r, g, b };
+}
+
+/**
+ * Converts the grid's colors into a 2D array.
+ * @returns {string[][]} A 2D array representing the grid's colors in RGB format.
+ */
+function getGridColors() {
+	const colors = [];
+
+	for (let row = 0; row < gridSize; row++) {
+		colors[row] = [];
+
+		for (let col = 0; col < gridSize; col++) {
+			const cell = grid.children[row * gridSize + col];
+			const color = getComputedStyle(cell).backgroundColor;
+			colors[row][col] = color;
+		}
+	}
+
+	return colors;
+}
+
+/**
+ * Exports the grid as an image using Canvas.
+ */
+function exportGridAsImage() {
+	const cellSize = 16;
+	const canvas = document.createElement("canvas");
+	const context = canvas.getContext("2d");
+
+	// Set canvas dimensions
+	canvas.width = gridSize * cellSize;
+	canvas.height = gridSize * cellSize;
+
+	const gridColors = getGridColors();
+
+	// Draw each grid cell onto the canvas
+	for (let i = 0; i < gridColors.length; i++) {
+		for (let j = 0; j < gridColors[i].length; j++) {
+			const color = gridColors[i][j];
+			context.fillStyle = color;
+			context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+		}
+	}
+
+	// Convert canvas to image and trigger download
+	const imageUrl = canvas.toDataURL("image/png");
+	const downloadLink = document.createElement("a");
+	downloadLink.href = imageUrl;
+	downloadLink.download = `grid_${gridSize}x${gridSize}.png`;
+	downloadLink.click();
 }
