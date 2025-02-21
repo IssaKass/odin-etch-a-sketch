@@ -17,6 +17,8 @@ const importButton = document.querySelector("#import-button");
 // States
 // ==========================
 const DEFAULT_GRID_SIZE = 16;
+const MAX_GRID_SIZE = 100;
+
 let gridSize = DEFAULT_GRID_SIZE;
 let gridColor = "black";
 let currentMode = "brush";
@@ -261,16 +263,6 @@ function getGridColors() {
 	return colors;
 }
 
-function setGridColors(colors) {
-	for (let row = 0; row < colors.length; row++) {
-		for (let col = 0; col < colors[row].length; col++) {
-			const cell = grid.children[row * gridSize + col];
-			cell.dataset.opacity = 0;
-			cell.style.backgroundColor = colors[row][col];
-		}
-	}
-}
-
 /**
  * Exports the grid as an image using Canvas.
  */
@@ -346,11 +338,9 @@ function drawImageToGrid(image) {
 	canvas.height = image.naturalHeight;
 
 	gridSize = Math.max(canvas.width, canvas.height);
-	if (gridSize >= 100) {
-		gridSize = 100;
+	if (gridSize >= MAX_GRID_SIZE) {
+		gridSize = MAX_GRID_SIZE;
 	}
-
-	console.log("uploading image...");
 
 	gridSizeInput.value = gridSize;
 
