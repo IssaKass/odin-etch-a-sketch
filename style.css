@@ -20,13 +20,14 @@
 	--button-color: hsl(200, 50%, 20%);
 
 	--button-hover-bg: hsl(200, 50%, 85%);
-	--button-hover-color: hsl(200, 50%, 20%);
 
-	--button-active-bg: hsl(200, 50%, 25%);
-	--button-active-color: hsl(200, 50%, 100%);
+	--button-active-bg: hsl(200, 50%, 100%);
+	--button-active-color: hsl(200, 50%, 50%);
 
 	--grid-bg: hsl(200, 50%, 100%);
 	--grid-border-color: hsl(200, 50%, 95%);
+
+	--separator-color: hsla(200, 50%, 80%);
 }
 
 [data-theme="dark"] {
@@ -40,13 +41,14 @@
 	--button-color: hsl(200, 50%, 100%);
 
 	--button-hover-bg: hsl(200, 50%, 35%);
-	--button-hover-color: hsl(200, 50%, 100%);
 
 	--button-active-bg: hsl(200, 50%, 100%);
 	--button-active-color: hsl(200, 50%, 20%);
 
 	--grid-bg: hsl(200, 50%, 100%);
 	--grid-border-color: hsla(200, 50%, 95%);
+
+	--separator-color: hsla(200, 50%, 20%);
 }
 
 img {
@@ -99,7 +101,7 @@ header h1 {
 	font-size: 1.5rem;
 }
 
-#change-theme {
+.change-theme {
 	background-color: transparent;
 	color: var(--main-color);
 	font-size: 1.15em;
@@ -112,7 +114,7 @@ header h1 {
 	transition: all 300ms ease;
 }
 
-#change-theme:hover {
+.change-theme:hover {
 	background-color: var(--button-active-bg);
 	color: var(--button-active-color);
 }
@@ -125,49 +127,62 @@ main {
 .toolbar {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
 	align-items: center;
-	width: 100%;
-	gap: 20px 10px;
-}
-
-.grid-color-input {
-	width: 60px;
-	height: 60px;
-	background-color: var(--header-bg);
-	padding: 4px;
-	border: none;
-	border-radius: 4px;
-}
-
-.grid-size {
-	margin-inline: 20px;
-	min-width: 160px;
+	gap: 12px 6px;
+	width: fit-content;
+	margin-inline: auto;
+	padding: 0 1em 6px;
+	border-bottom: 2px solid var(--separator-color);
 }
 
 .toolbar button {
-	font-size: 1em;
-	padding: 0.6em 1em;
+	padding: 6px 12px;
 	border-radius: 0.2em;
-	background-color: var(--button-bg);
+	background-color: transparent;
 	color: var(--button-color);
 	border: none;
+	border-bottom: 2px solid transparent;
 	transition: all 300ms ease;
 }
 
 .toolbar button:hover {
 	background-color: var(--button-hover-bg);
-	color: var(--button-hover-color);
 }
 
 .toolbar button.active,
 .toolbar button:active {
-	background-color: var(--button-active-bg);
 	color: var(--button-active-color);
+	background-color: var(--button-active-bg);
+	border-color: var(--button-active-color);
 }
 
-.toolbar .toggle-borders-button {
-	margin-right: 20px;
+.toolbar button i {
+	font-size: 1.2em;
+}
+
+.toolbar .separator {
+	width: 2px;
+	height: 32px;
+	margin-inline: 4px;
+	border: none;
+	background-color: var(--separator-color);
+}
+
+.grid-size {
+	width: 120px;
+	font-size: 0.8em;
+	text-align: center;
+}
+
+.grid-size input {
+	width: 100%;
+}
+
+.grid-color-input {
+	background-color: var(--header-bg);
+	padding-inline: 2px;
+	border: none;
+	border-radius: 4px;
 }
 
 .grid-holder {

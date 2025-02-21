@@ -101,7 +101,7 @@ function changeTheme() {
 function updateGrid() {
 	// Update grid size state
 	gridSize = gridSizeInput.value;
-	gridSizeMessage.textContent = `Grid size: ${gridSize} x ${gridSize}`;
+	gridSizeMessage.textContent = `${gridSize} x ${gridSize}`;
 
 	// Clear existing grid
 	grid.innerHTML = "";

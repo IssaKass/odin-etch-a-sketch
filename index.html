@@ -24,7 +24,7 @@
 		<header>
 			<div class="container">
 				<h1>Etch-a-Sketch</h1>
-				<button id="change-theme">
+				<button id="change-theme" class="change-theme">
 					<i class="fa-solid fa-sun"></i>
 				</button>
 			</div>
@@ -32,15 +32,8 @@
 		<main>
 			<div class="container">
 				<div class="toolbar">
-					<div class="grid-color">
-						<input
-							type="color"
-							id="grid-color-input"
-							class="grid-color-input"
-						/>
-					</div>
 					<div class="grid-size">
-						<p id="grid-size-message">Grid size</p>
+						<p id="grid-size-message"></p>
 						<input
 							type="range"
 							min="2"
@@ -50,57 +43,53 @@
 							class="grid-size-input"
 						/>
 					</div>
-					<div class="buttons">
-						<button
-							id="export-button"
-							class="export-button"
-							title="Export to image"
-						>
-							<i class="fa-solid fa-download"></i>
-						</button>
-						<button
-							id="clear-button"
-							class="clear-button"
-							title="Clear the grid"
-						>
-							<i class="fa-solid fa-trash"></i>
-						</button>
-						<button
-							id="toggle-borders-button"
-							class="toggle-borders-button"
-							title="Toggle grid's border"
-						>
-							<i class="fa-solid fa-border-all"></i>
-						</button>
-						<button
-							data-mode="brush"
-							class="mode-button"
-							title="Use brush mode"
-						>
-							<i class="fa-solid fa-brush"></i>
-						</button>
-						<button
-							data-mode="rainbow"
-							class="mode-button"
-							title="Use rainbow mode"
-						>
-							<i class="fa-solid fa-rainbow"></i>
-						</button>
-						<button
-							data-mode="grayscale"
-							class="mode-button"
-							title="Use grayscale mode"
-						>
-							<i class="fa-solid fa-circle-half-stroke"></i>
-						</button>
-						<button
-							data-mode="eraser"
-							class="mode-button"
-							title="Use the eraser"
-						>
-							<i class="fa-solid fa-eraser"></i>
-						</button>
+					<hr class="separator" />
+					<button
+						id="export-button"
+						class="export-button"
+						title="Export to image"
+					>
+						<i class="fa-solid fa-download"></i>
+					</button>
+					<hr class="separator" />
+					<button id="clear-button" class="clear-button" title="Clear the grid">
+						<i class="fa-solid fa-trash"></i>
+					</button>
+					<button
+						id="toggle-borders-button"
+						class="toggle-borders-button"
+						title="Toggle grid's border"
+					>
+						<i class="fa-solid fa-border-all"></i>
+					</button>
+					<hr class="separator" />
+					<div class="grid-color">
+						<input
+							type="color"
+							id="grid-color-input"
+							class="grid-color-input"
+						/>
 					</div>
+					<button data-mode="brush" class="mode-button" title="Use brush mode">
+						<i class="fa-solid fa-brush"></i>
+					</button>
+					<button
+						data-mode="rainbow"
+						class="mode-button"
+						title="Use rainbow mode"
+					>
+						<i class="fa-solid fa-rainbow"></i>
+					</button>
+					<button
+						data-mode="grayscale"
+						class="mode-button"
+						title="Use grayscale mode"
+					>
+						<i class="fa-solid fa-circle-half-stroke"></i>
+					</button>
+					<button data-mode="eraser" class="mode-button" title="Use the eraser">
+						<i class="fa-solid fa-eraser"></i>
+					</button>
 				</div>
 				<div class="grid-holder">
 					<div id="grid" class="grid"></div>
