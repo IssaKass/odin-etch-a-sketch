@@ -1,4 +1,6 @@
+// ==========================
 // DOM Elements
+// ==========================
 const changeThemeButton = document.querySelector("#change-theme");
 
 const grid = document.querySelector("#grid");
@@ -9,24 +11,41 @@ const clearButton = document.querySelector("#clear-button");
 const toggleBordersButton = document.querySelector("#toggle-borders-button");
 const toolbar = document.querySelector(".toolbar");
 
+// ==========================
 // States
+// ==========================
 let gridSize = 16;
 let gridColor = "black";
 let currentMode = "brush";
 let isMouseDown = false;
 let showBorders = true;
 
-// Initialize Grid
+// ==========================
+// Initialization
+// ==========================
+
+// Initialize grid on page load
 document.addEventListener("DOMContentLoaded", initializeGrid);
 
+// ==========================
 // Event Listeners
+// ==========================
+
+// Toggle theme between light and dark
 changeThemeButton.addEventListener("click", changeTheme);
+
+// Update grid size when slider value changes
 gridSizeInput.addEventListener("input", updateGrid);
+
+// Clear the grid when clear button is clicked
 clearButton.addEventListener("click", clearGrid);
+
+// Toggle grid borders on button click
 toggleBordersButton.addEventListener("click", () =>
 	updateBorders(!showBorders)
 );
 
+// Handle drawing events
 grid.addEventListener("mousedown", (event) => {
 	isMouseDown = true;
 	handleDrawing(event);
@@ -34,6 +53,7 @@ grid.addEventListener("mousedown", (event) => {
 grid.addEventListener("mouseup", () => (isMouseDown = false));
 grid.addEventListener("mousemove", handleDrawing);
 
+// Change drawing mode when a mode-button is clicked
 toolbar.addEventListener("click", function (event) {
 	const button = event.target.closest("button");
 
@@ -42,18 +62,27 @@ toolbar.addEventListener("click", function (event) {
 	updateMode(button.dataset.mode);
 });
 
+// ==========================
 // Functions
+// ==========================
+
+/**
+ * Initializes the grid and sets default state.
+ */
 function initializeGrid() {
 	updateGrid();
 	updateBorders(true);
 }
 
+/**
+ * Toggles between light and dark themes.
+ */
 function changeTheme() {
 	const currentTheme = document.body.dataset.theme;
-	const isLightTheme = currentTheme === "light";
 	const icon = changeThemeButton.querySelector("i");
 
-	if (isLightTheme) {
+	// Toggle theme and update icon
+	if (currentTheme === "light") {
 		icon.classList.replace("fa-sun", "fa-moon");
 		document.body.dataset.theme = "dark";
 	} else {
@@ -62,34 +91,52 @@ function changeTheme() {
 	}
 }
 
+/**
+ * Updates the grid size and regenerates grid cells.
+ */
 function updateGrid() {
+	// Update grid size state
 	gridSize = gridSizeInput.value;
 	gridSizeMessage.textContent = `Grid size: ${gridSize} x ${gridSize}`;
 
+	// Clear existing grid
 	grid.innerHTML = "";
 	grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
 	grid.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
 
+	// Create grid cells
 	for (let i = 0; i < gridSize ** 2; i++) {
 		const gridCell = document.createElement("div");
 		gridCell.classList.add("grid-cell");
-		gridCell.dataset.opacity = 0;
+		gridCell.dataset.opacity = 0; // For grayscale mode
 		grid.append(gridCell);
 	}
 
+	// Reset to default drawing mode
 	updateMode("brush");
 }
 
+/**
+ * Clears the grid by regenerating grid cells.
+ */
 function clearGrid() {
 	updateGrid();
 }
 
+/**
+ * Toggles grid borders on or off.
+ * @param {boolean} state - New state for border visibility
+ */
 function updateBorders(state) {
 	showBorders = state;
 	toggleBordersButton.classList.toggle("active", showBorders);
 	grid.classList.toggle("show-borders", showBorders);
 }
 
+/**
+ * Updates the current drawing mode.
+ * @param {string} mode - New drawing mode ("brush", "rainbow", "grayscale", "eraser")
+ */
 function updateMode(mode) {
 	currentMode = mode;
 	toolbar
@@ -99,22 +146,31 @@ function updateMode(mode) {
 		);
 }
 
+/**
+ * Handles drawing logic for different modes.
+ * @param {Event} event - Mouse event
+ */
 function handleDrawing(event) {
+	// Exit if not on a grid cell or mouse is not down
 	if (!event.target.classList.contains("grid-cell") || !isMouseDown) return;
 
 	const cell = event.target;
 
+	// Determine drawing behavior based on mode
 	switch (currentMode) {
 		case "brush":
+			// Use selected color for brush mode
 			gridColor = gridColorInput.value;
 			cell.style.backgroundColor = gridColor;
 			break;
 		case "rainbow":
+			// Generate random color for rainbow mode
 			gridColor = generateRandomHexColor();
 			gridColorInput.value = gridColor;
 			cell.style.backgroundColor = gridColor;
 			break;
 		case "grayscale":
+			// Apply grayscale effect by increasing opacity
 			gridColor = gridColorInput.value;
 			const { r, g, b } = hexToRgb(gridColor);
 
@@ -125,12 +181,18 @@ function handleDrawing(event) {
 			cell.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${currentOpacity})`;
 			break;
 		case "eraser":
+			// Make cell transparent for eraser mode
 			gridColor = "transparent";
+			cell.dataset.opacity = 0; // Reset the opacity
 			cell.style.backgroundColor = gridColor;
 			break;
 	}
 }
 
+/**
+ * Generates a random hex color.
+ * @returns {string} Random hex color
+ */
 function generateRandomHexColor() {
 	const letters = "0123456789ABCDEF";
 
@@ -142,10 +204,22 @@ function generateRandomHexColor() {
 	return color;
 }
 
+/**
+ * Converts RGB values to hex color.
+ * @param {number} r - Red value (0-255)
+ * @param {number} g - Green value (0-255)
+ * @param {number} b - Blue value (0-255)
+ * @returns {string} Hex color string
+ */
 function rgbToHex(r, g, b) {
 	return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 
+/**
+ * Converts a hex color string to RGB values.
+ * @param {string} hex - Hex color string
+ * @returns {object} Object containing RGB values
+ */
 function hexToRgb(hex) {
 	var bigint = parseInt(hex.slice(1), 16);
 	var r = (bigint >> 16) & 255;
