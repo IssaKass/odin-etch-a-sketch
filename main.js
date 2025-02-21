@@ -50,12 +50,14 @@ function initializeGrid() {
 
 function changeTheme() {
 	const currentTheme = document.body.dataset.theme;
+	const isLightTheme = currentTheme === "light";
+	const icon = changeThemeButton.querySelector("i");
 
-	if (currentTheme === "light") {
-		changeThemeButton.querySelector("i").classList.replace("fa-sun", "fa-moon");
+	if (isLightTheme) {
+		icon.classList.replace("fa-sun", "fa-moon");
 		document.body.dataset.theme = "dark";
 	} else {
-		changeThemeButton.querySelector("i").classList.replace("fa-moon", "fa-sun");
+		icon.classList.replace("fa-moon", "fa-sun");
 		document.body.dataset.theme = "light";
 	}
 }
