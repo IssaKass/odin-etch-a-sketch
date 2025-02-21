@@ -23,6 +23,7 @@
 
 	--button-active-bg: hsl(200, 50%, 100%);
 	--button-active-color: hsl(200, 50%, 50%);
+	--button-active-border-color: hsl(200, 50%, 50%);
 
 	--grid-bg: hsl(200, 50%, 100%);
 	--grid-border-color: hsl(200, 50%, 95%);
@@ -31,7 +32,7 @@
 }
 
 [data-theme="dark"] {
-	--main-bg: hsl(200, 50%, 25%);
+	--main-bg: hsl(200, 50%, 10%);
 	--main-color: hsl(200, 50%, 100%);
 
 	--header-bg: hsl(200, 50%, 15%);
@@ -42,13 +43,14 @@
 
 	--button-hover-bg: hsl(200, 50%, 35%);
 
-	--button-active-bg: hsl(200, 50%, 100%);
-	--button-active-color: hsl(200, 50%, 20%);
+	--button-active-bg: hsl(200, 50%, 30%);
+	--button-active-color: hsl(200, 50%, 100%);
+	--button-active-border-color: hsl(200, 50%, 100%);
 
 	--grid-bg: hsl(200, 50%, 100%);
 	--grid-border-color: hsla(200, 50%, 95%);
 
-	--separator-color: hsla(200, 50%, 20%);
+	--separator-color: hsla(200, 50%, 30%);
 }
 
 img {
@@ -153,7 +155,7 @@ main {
 .toolbar button:active {
 	color: var(--button-active-color);
 	background-color: var(--button-active-bg);
-	border-color: var(--button-active-color);
+	border-color: var(--button-active-border-color);
 }
 
 .toolbar button i {
