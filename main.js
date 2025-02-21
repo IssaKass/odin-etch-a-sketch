@@ -32,7 +32,7 @@ grid.addEventListener("mousedown", (event) => {
 	handleDrawing(event);
 });
 grid.addEventListener("mouseup", () => (isMouseDown = false));
-grid.addEventListener("mouseover", handleDrawing);
+grid.addEventListener("mousemove", handleDrawing);
 
 toolbar.addEventListener("click", function (event) {
 	const button = event.target.closest("button");
