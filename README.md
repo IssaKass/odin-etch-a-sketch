@@ -31,3 +31,4 @@ You can view the live preview of the application by clicking the link below:
 
 - Clear Grid: Instantly clear the canvas to start a new drawing.
 - One Active Mode at a Time: Only one mode button stays active, preventing mode conflicts and enhancing usability.
+- Export as Image: Save your pixel art as a PNG image. If no color is drawn, the background will be white, ensuring a clean canvas for exporting.

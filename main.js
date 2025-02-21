@@ -265,12 +265,20 @@ function exportGridAsImage() {
 	canvas.width = gridSize * cellSize;
 	canvas.height = gridSize * cellSize;
 
+	context.fillStyle = "#FFFFFF";
+	context.fillRect(0, 0, canvas.width, canvas.height);
+
 	const gridColors = getGridColors();
 
 	// Draw each grid cell onto the canvas
 	for (let i = 0; i < gridColors.length; i++) {
 		for (let j = 0; j < gridColors[i].length; j++) {
-			const color = gridColors[i][j];
+			let color = gridColors[i][j];
+
+			if (color === "rgba(0, 0, 0, 0)" || color === "transparent") {
+				color = "#FFFFFF";
+			}
+
 			context.fillStyle = color;
 			context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
 		}
